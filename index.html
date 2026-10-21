@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Práctica Dirigida N°1</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--tx:#1d2433;--mu:#667085;--ac:#4f46e5;--ok:#16a34a;--bad:#dc2626;--bd:#e3e6ee;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12141c;--card:#1b1e29;--tx:#eceef5;--mu:#9aa1b5;--ac:#818cf8;--ok:#4ade80;--bad:#f87171;--bd:#2b3042}}
+:root[data-theme="dark"]{--bg:#12141c;--card:#1b1e29;--tx:#eceef5;--mu:#9aa1b5;--ac:#818cf8;--ok:#4ade80;--bad:#f87171;--bd:#2b3042}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--card);z-index:10}
+.wrap{max-width:760px;margin:0 auto;padding:16px}
+h1{font-size:1.5rem;margin:8px 0}
+.mu{color:var(--mu);font-size:.9rem}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;margin:14px 0}
+input[type=text],textarea{width:100%;padding:9px 11px;border:1px solid var(--bd);border-radius:9px;background:var(--bg);color:var(--tx);font:inherit;margin:4px 0}
+textarea{min-height:110px;font:13px/1.4 ui-monospace,Menlo,monospace}
+button{background:var(--ac);color:#fff;border:0;border-radius:11px;padding:12px 20px;font:inherit;font-weight:600;cursor:pointer;width:100%;margin-top:8px}
+button.sec{background:transparent;color:var(--ac);border:1px solid var(--ac)}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:11;background:var(--card);border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;padding:10px 16px}
+#tm{font-size:1.5rem;font-weight:700;font-variant-numeric:tabular-nums}
+#tm.low{color:var(--bad)}
+label.ch{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--bd);border-radius:10px;margin:7px 0;cursor:pointer}
+label.ch input{margin-top:4px;accent-color:var(--ac)}
+label.ch.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 15%,transparent)}
+label.ch.bad{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 15%,transparent)}
+.locked label.ch{cursor:default}
+.pts{float:right;font-weight:700}
+.score{text-align:center;font-size:3rem;font-weight:800;color:var(--ac)}
+.code{word-break:break-all;user-select:all;font:13px/1.4 ui-monospace,Menlo,monospace;background:var(--bg);border:1px dashed var(--ac);border-radius:9px;padding:10px;margin:8px 0}
+.hide{display:none}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--bd);white-space:nowrap}
+</style></head><body>
+<div id="root"></div>
+<script>
+const CFG={"mins": 10, "qs": [{"c": 2, "o": ["Presenta información clara, ordenada y coherente.", "Presenta información clara, secuencial y ordenada.", "Presenta información visual, ordenada y jerárquica.", "Presenta información ordenada, jerárquica y clara."], "q": "¿Por qué se caracteriza un organizador visual? (Según la exposición)"}, {"c": 2, "o": ["Centro de la V", "Lado derecho", "Lado izquierdo", "Ninguno"], "q": "¿En qué lado de La V de Gowin encontramos las Teorías?"}, {"c": 2, "o": ["Facilitar la comprensión y la retención.", "Favorecer la retención y el aprendizaje.", "Facilitar la comprensión y el aprendizaje.", "Favorecer la retención y el pensamiento."], "q": "¿Qué función cumple un organizador visual? (Según la exposición)"}, {"c": 2, "o": ["Método, Gestión y Mano de obra.", "Medición, Motivación y Materiales.", "Maquinaria, Medio ambiente y Medición.", "Método, Materiales y Motivación."], "q": "¿Cuáles son algunos elementos del diagrama de Ishikawa?"}, {"c": 0, "o": ["Colores, palabras clave y ramas.", "Palabras clave, íconos y figuras.", "Imágenes, símbolos y tablas.", "Imágenes, símbolos y tablas."], "q": "¿Qué elementos utiliza un mapa mental?"}, {"c": 0, "o": ["Centro de la V", "Lado derecho", "Lado izquierdo", "Ninguno"], "q": "¿En qué lado de La V de Gowin encontramos las Acontecimientos?"}, {"c": 2, "o": ["Capa de Síntesis", "Capa de Indagación", "Capa de exploración", "Capa de Integración"], "q": "¿Cuál es el nombre de la primera capa del organizador Gira y Sintetiza?"}, {"c": 1, "o": ["Presenta dos niveles de profundidad.", "Es interactivo.", "Permite la organización.", "Asocia ideas."], "q": "¿Cuál es el valor agregado del organizador Gira y Sintetiza?"}, {"c": 1, "o": ["Explorar y analizar el tema.", "Elaborar conclusiones y reflexiones", "Analizar e indagar el tema.", "Indagar y analizar el tema."], "q": "¿Qué función cumple la segunda capa del organizador Gira y Sintetiza?"}, {"c": 0, "o": ["Despliegue progresivo", "Retroalimentación", "Metacognición", "Atención selectiva"], "q": "¿Qué base pedagógica utiliza el organizador Gira y Sintetiza?"}]};
+const L="ABCD",SALT="pdn1-lima-2026",$=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let db=null,preview=false,started=false,unsub=null,Q=[],end=0,tick=null,locked=false,stu={},rows=[];
+
+/* código de resultado */
+function h(s){let x=2166136261;for(const ch of s){x^=ch.charCodeAt(0);x=Math.imul(x,16777619)}return(x>>>0).toString(36)}
+function mk(o){const p=btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");return p+"."+h(p+SALT)}
+function rd(c){c=c.trim();const i=c.lastIndexOf(".");if(i<1)return null;const p=c.slice(0,i);if(h(p+SALT)!==c.slice(i+1))return null;
+  try{const o=JSON.parse(decodeURIComponent(escape(atob(p.replace(/-/g,"+").replace(/_/g,"/")))));return typeof o.s==="number"&&o.a&&o.n?o:null}catch(e){return null}}
+
+student();
+(async()=>{ /* si quien abre es el profesor (con sesión), se muestra el panel */
+  try{const u=await window.claude?.use("user");
+    if(u&&await u.canEdit()){db=await window.claude.use("db");if(!started&&!preview)teacher()}}catch(e){}
+})();
+
+/* ---------- PROFESOR ---------- */
+function teacher(){
+  if(unsub){unsub();unsub=null}
+  $("root").innerHTML=`<div class="wrap"><h1>Panel del profesor</h1>
+  <div class="card"><b>Agregar resultados</b><p class="mu">Pega aquí los códigos que te envíen los alumnos (uno por línea) y pulsa “Agregar al registro”.</p>
+  <textarea id="codes" placeholder="Pega los códigos aquí"></textarea><button onclick="addCodes()">Agregar al registro</button><p id="msg" class="mu"></p></div>
+  <div class="card"><div class="tw" id="tbl"><p class="mu">Cargando…</p></div></div>
+  <button class="sec" onclick="csv()">Descargar registro (CSV)</button>
+  <button class="sec" style="color:var(--bad);border-color:var(--bad)" onclick="delAll()">Borrar todo el registro</button>
+  <button class="sec" onclick="preview=true;student()">Ver como alumno</button></div>`;
+  if(!db){$("tbl").innerHTML='<p class="mu">No se pudo abrir el registro. Recarga la página.</p>';return}
+  unsub=db.collection("results").onSnapshot(s=>{
+    rows=s.docs.map(d=>({...d.data(),_id:d.id})).sort((a,b)=>(a.apellido||"").localeCompare(b.apellido||"","es"));
+    if(!rows.length){$("tbl").innerHTML='<p class="mu">El registro está vacío.</p>';return}
+    const avg=(rows.reduce((t,r)=>t+r.score,0)/rows.length).toFixed(1);
+    $("tbl").innerHTML=`<p class="mu">${rows.length} registros · promedio ${avg} / 20</p><table><tr><th>#</th><th>Apellidos</th><th>Nombres</th><th>Nota</th><th>Correctas</th><th>Fecha</th><th>Envío</th><th></th></tr>
+    ${rows.map((r,i)=>`<tr><td>${i+1}</td><td>${esc(r.apellido)}</td><td>${esc(r.nombre)}</td><td><b>${r.score}/20</b></td><td>${r.score/2}/10</td><td>${new Date(r.at).toLocaleString("es-PE")}</td><td>${r.timeout?"Tiempo agotado":"Enviado"}</td><td><button class="sec" style="margin:0;padding:4px 10px;width:auto;color:var(--bad);border-color:var(--bad)" onclick="delRow('${r._id}')">Borrar</button></td></tr>`).join("")}</table>`;
+  },e=>{$("tbl").innerHTML='<p class="mu">No se pudo leer el registro.</p>'});
+}
+async function addCodes(){
+  const lines=$("codes").value.split(/\s+/).filter(Boolean);let ok=0,bad=0;
+  for(const c of lines){
+    const o=rd(c);if(!o){bad++;continue}
+    try{await db.doc("results/r"+h(c)+h(c+"x")).set({apellido:o.a,nombre:o.n,score:o.s,timeout:!!o.t,at:o.at||Date.now()});ok++}catch(e){bad++}
+  }
+  $("msg").textContent=`Agregados: ${ok}${bad?` · No válidos: ${bad} (revisa que el código esté completo)`:""}`;
+  if(ok&&!bad)$("codes").value="";
+}
+async function delRow(id){
+  const r=rows.find(x=>x._id===id);
+  if(!r||!confirm(`¿Borrar la nota de ${r.nombre} ${r.apellido}?`))return;
+  try{await db.doc("results/"+id).delete()}catch(e){alert("No se pudo borrar.")}
+}
+async function delAll(){
+  if(!rows.length){alert("El registro ya está vacío.");return}
+  if(!confirm(`Se borrarán las ${rows.length} notas del registro. Esta acción no se puede deshacer. ¿Continuar?`))return;
+  if(!confirm("¿Seguro? Si aún no descargaste el CSV, descárgalo primero."))return;
+  try{for(const r of [...rows])await db.doc("results/"+r._id).delete()}catch(e){alert("No se pudo borrar todo. Intenta de nuevo.")}
+}
+async function csv(){
+  const q=s=>'"'+String(s).replace(/"/g,'""')+'"';
+  const data="\ufeffApellidos,Nombres,Nota (sobre 20),Correctas,Fecha,Envio\n"+rows.map(r=>[q(r.apellido),q(r.nombre),r.score,r.score/2,q(new Date(r.at).toLocaleString("es-PE")),r.timeout?"Tiempo agotado":"Enviado"].join(",")).join("\n");
+  try{const d=await window.claude.use("downloads");await d.save({filename:"registro_practica.csv",data})}catch(e){}
+}
+
+/* ---------- ALUMNO ---------- */
+function student(){
+  if(unsub){unsub();unsub=null}
+  $("root").innerHTML=`<div class="wrap"><h1>Práctica Dirigida N°1</h1>
+  <p class="mu">10 preguntas · 2 puntos cada una · nota sobre 20 · tiempo: ${CFG.mins} min. Al terminar el tiempo ya no podrás responder.</p>
+  <div class="card"><b>Apellidos</b><input type="text" id="ap" autocomplete="family-name"><b>Nombres</b><input type="text" id="nm" autocomplete="given-name">
+  <p id="err" class="mu" style="color:var(--bad)"></p><button onclick="start()">Iniciar práctica</button></div>
+  ${preview?'<button class="sec" onclick="preview=false;teacher()">Volver al panel</button>':""}</div>`;
+}
+function start(){
+  const ap=$("ap").value.trim(),nm=$("nm").value.trim();
+  if(ap.length<2||nm.length<2){$("err").textContent="Escribe tus apellidos y nombres.";return}
+  stu={apellido:ap,nombre:nm};started=true;
+  Q=[...CFG.qs];for(let i=Q.length-1;i>0;i--){const k=Math.floor(Math.random()*(i+1));[Q[i],Q[k]]=[Q[k],Q[i]]}
+  locked=false;
+  $("root").innerHTML=`<div class="bar"><div><b>${esc(nm)}</b> <span class="mu" id="prog"></span></div><div id="tm">00:00</div></div>
+  <div class="wrap"><div id="result" class="card hide"></div><div id="qs">
+  ${Q.map((x,i)=>`<div class="card" id="card${i}"><b>${i+1}. ${esc(x.q)}</b> <span class="pts mu">2 pts</span>
+  ${x.o.map((t,j)=>t?`<label class="ch"><input type="radio" name="a${i}" value="${j}" onchange="upd()"><span><b>${L[j]}.</b> ${esc(t)}</span></label>`:"").join("")}</div>`).join("")}</div>
+  <button id="sendBtn" onclick="finish(false)">Enviar respuestas</button></div>`;
+  end=Date.now()+CFG.mins*60000;tick=setInterval(clock,250);clock();upd();
+}
+function upd(){const n=Q.filter((_,i)=>document.querySelector(`input[name=a${i}]:checked`)).length;$("prog").textContent=`· ${n}/10 respondidas`}
+function clock(){
+  const r=Math.max(0,end-Date.now()),s=Math.ceil(r/1000);
+  $("tm").textContent=String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+  $("tm").classList.toggle("low",s<=60);if(r<=0)finish(true);
+}
+function finish(timeout){
+  if(locked)return;
+  if(!timeout){const n=Q.filter((_,i)=>document.querySelector(`input[name=a${i}]:checked`)).length;
+    if(n<10&&!confirm(`Te faltan ${10-n} preguntas por responder. ¿Enviar de todas formas?`))return}
+  locked=true;clearInterval(tick);
+  document.querySelectorAll("#qs input").forEach(e=>e.disabled=true);$("qs").classList.add("locked");
+  let pts=0;
+  Q.forEach((x,i)=>{
+    const sel=document.querySelector(`input[name=a${i}]:checked`),a=sel?+sel.value:-1,good=a===x.c;
+    if(good)pts+=2;
+    if(preview){document.querySelectorAll(`#card${i} label.ch`).forEach(l=>{const v=+l.querySelector("input").value;if(v===x.c)l.classList.add("ok");else if(v===a)l.classList.add("bad")});
+    }
+    const p=document.querySelector(`#card${i} .pts`);p.textContent=good?"2 pts":"0 pts";p.style.color=good?"var(--ok)":"var(--bad)";
+  });
+  $("tm").textContent=timeout?"Tiempo agotado":"Finalizado";$("sendBtn").classList.add("hide");
+  const r=$("result");r.classList.remove("hide");
+  const code=mk({a:stu.apellido,n:stu.nombre,s:pts,t:timeout?1:0,at:Date.now()});
+  const hdr=timeout?'<p class="mu" style="text-align:center">⏰ Se acabó el tiempo. Se envió lo que alcanzaste a responder.</p>':"";
+  r.innerHTML=preview?`${hdr}<div class="score">${pts} / 20</div><p style="text-align:center" class="mu">Vista previa: esta nota no se registra.</p><button class="sec" onclick="preview=false;started=false;teacher()">Volver al panel</button>`
+  :`${hdr}<div class="score">${pts} / 20</div><p style="text-align:center" class="mu">${pts/2} de 10 correctas · Práctica terminada</p>
+  <p style="text-align:center"><b>${esc(stu.nombre)} ${esc(stu.apellido)}</b></p>
+  <p><b>Importante:</b> copia este código y envíaselo a tu profesor. Sin este código tu práctica no queda registrada.</p>
+  <div class="code" id="cd">${code}</div><button onclick="cp()">Copiar código</button><p id="cpm" class="mu" style="text-align:center"></p>`;
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+async function cp(){
+  try{await navigator.clipboard.writeText($("cd").textContent);$("cpm").textContent="✓ Código copiado. Envía este código por mensaje al delegado Adrián."}
+  catch(e){const r=document.createRange();r.selectNodeContents($("cd"));const s=getSelection();s.removeAllRanges();s.addRange(r);$("cpm").textContent="Mantén presionado el código para copiarlo."}
+}
+</script></body></html>
